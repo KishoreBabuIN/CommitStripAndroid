@@ -118,6 +118,7 @@ dependencies {
     implementation 'android.arch.persistence.room:runtime:1.0.0-alpha5'
     implementation "android.arch.persistence.room:rxjava2:1.0.0-alpha5"
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-alpha5'
+    kapt 'android.arch.persistence.room:compiler:1.0.0-alpha5'
 
     implementation "io.reactivex.rxjava2:rxjava:2.1.3"
 
