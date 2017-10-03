@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
-import com.kishorebabu.android.commitstrip.MvpStarterApplication
+import com.kishorebabu.android.commitstrip.CommitStripApplication
 import com.kishorebabu.android.commitstrip.injection.component.ConfigPersistentComponent
 import com.kishorebabu.android.commitstrip.injection.component.DaggerConfigPersistentComponent
 import com.kishorebabu.android.commitstrip.injection.component.FragmentComponent
@@ -35,7 +35,7 @@ abstract class BaseFragment : Fragment() {
         if (sComponentsArray.get(mFragmentId) == null) {
             Timber.i("Creating new ConfigPersistentComponent id=%d", mFragmentId)
             configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(MvpStarterApplication[activity].component)
+                    .applicationComponent(CommitStripApplication[activity].component)
                     .build()
             sComponentsArray.put(mFragmentId, configPersistentComponent)
         } else {

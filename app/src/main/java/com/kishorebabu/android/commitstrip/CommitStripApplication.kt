@@ -14,7 +14,7 @@ import com.twitter.sdk.android.core.TwitterAuthConfig
 import com.twitter.sdk.android.core.TwitterConfig
 import timber.log.Timber
 
-class MvpStarterApplication : MultiDexApplication() {
+class CommitStripApplication : MultiDexApplication() {
 
     internal var mApplicationComponent: ApplicationComponent? = null
 
@@ -51,8 +51,8 @@ class MvpStarterApplication : MultiDexApplication() {
 
     companion object {
 
-        operator fun get(context: Context): MvpStarterApplication {
-            return context.applicationContext as MvpStarterApplication
+        operator fun get(context: Context): CommitStripApplication {
+            return context.applicationContext as CommitStripApplication
         }
     }
 }

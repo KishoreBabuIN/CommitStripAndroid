@@ -2,7 +2,7 @@ package com.kishorebabu.android.commitstrip.runner
 
 import android.app.Application
 import android.content.Context
-import com.kishorebabu.android.commitstrip.MvpStarterApplication
+import com.kishorebabu.android.commitstrip.CommitStripApplication
 import io.appflate.restmock.android.RESTMockTestRunner
 
 /**
@@ -12,7 +12,7 @@ class TestRunner : RESTMockTestRunner() {
 
     @Throws(InstantiationException::class, IllegalAccessException::class, ClassNotFoundException::class)
     override fun newApplication(cl: ClassLoader, className: String, context: Context): Application {
-        return super.newApplication(cl, MvpStarterApplication::class.java.name, context)
+        return super.newApplication(cl, CommitStripApplication::class.java.name, context)
     }
 
 }

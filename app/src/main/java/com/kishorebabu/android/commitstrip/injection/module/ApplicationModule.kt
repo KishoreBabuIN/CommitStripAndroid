@@ -1,7 +1,10 @@
 package com.kishorebabu.android.commitstrip.injection.module
 
 import android.app.Application
+import android.arch.persistence.room.Room
 import android.content.Context
+import com.kishorebabu.android.commitstrip.data.model.ComicDao
+import com.kishorebabu.android.commitstrip.data.model.ComicDatabase
 import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.kishorebabu.android.commitstrip.data.remote.MvpStarterServiceFactory
 import com.kishorebabu.android.commitstrip.injection.ApplicationContext
@@ -13,19 +16,34 @@ import javax.inject.Singleton
 class ApplicationModule(private val mApplication: Application) {
 
     @Provides
-    internal fun provideApplication(): Application {
-        return mApplication
-    }
-
-    @Provides
-    @ApplicationContext
-    internal fun provideContext(): Context {
+    fun provideApplication(): Application {
         return mApplication
     }
 
     @Provides
     @Singleton
-    internal fun provideMvpStarterService(): MvpStarterService {
+    @ApplicationContext
+    fun provideContext(): Context {
+        return mApplication
+    }
+
+    @Provides
+    @Singleton
+    fun provideMvpStarterService(): MvpStarterService {
         return MvpStarterServiceFactory.makeStarterService()
     }
+
+    @Provides
+    @Singleton
+    fun provideComicDatabase(@ApplicationContext context: Context): ComicDatabase {
+        return Room.databaseBuilder(context, ComicDatabase::class.java, "commit-strip-comics-db").allowMainThreadQueries().build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideComicDao(database: ComicDatabase): ComicDao {
+        return database.comicDao()
+    }
+
+
 }

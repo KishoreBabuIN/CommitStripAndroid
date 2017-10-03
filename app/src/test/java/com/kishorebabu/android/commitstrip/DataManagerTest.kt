@@ -2,6 +2,7 @@ package com.kishorebabu.android.commitstrip
 
 import com.kishorebabu.android.commitstrip.common.TestDataFactory
 import com.kishorebabu.android.commitstrip.data.DataManager
+import com.kishorebabu.android.commitstrip.data.model.ComicDao
 import com.kishorebabu.android.commitstrip.data.model.PokemonListResponse
 import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.kishorebabu.android.commitstrip.util.RxSchedulersOverrideRule
@@ -23,12 +24,13 @@ class DataManagerTest {
     @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
     @Mock lateinit var mMockMvpStarterService: MvpStarterService
+    @Mock lateinit var mComicDao: ComicDao
 
     private var mDataManager: DataManager? = null
 
     @Before
     fun setUp() {
-        mDataManager = DataManager(mMockMvpStarterService)
+        mDataManager = DataManager(mMockMvpStarterService, mComicDao)
     }
 
     @Test

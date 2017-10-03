@@ -5,7 +5,7 @@ import android.support.v4.util.LongSparseArray
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import butterknife.ButterKnife
-import com.kishorebabu.android.commitstrip.MvpStarterApplication
+import com.kishorebabu.android.commitstrip.CommitStripApplication
 import com.kishorebabu.android.commitstrip.injection.component.ActivityComponent
 import com.kishorebabu.android.commitstrip.injection.component.ConfigPersistentComponent
 import com.kishorebabu.android.commitstrip.injection.component.DaggerConfigPersistentComponent
@@ -38,7 +38,7 @@ abstract class BaseActivity : AppCompatActivity() {
         if (sComponentsArray.get(mActivityId) == null) {
             Timber.i("Creating new ConfigPersistentComponent id=%d", mActivityId)
             configPersistentComponent = DaggerConfigPersistentComponent.builder()
-                    .applicationComponent(MvpStarterApplication[this].component)
+                    .applicationComponent(CommitStripApplication[this].component)
                     .build()
             sComponentsArray.put(mActivityId, configPersistentComponent)
         } else {

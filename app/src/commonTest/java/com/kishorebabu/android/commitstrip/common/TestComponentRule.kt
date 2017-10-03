@@ -1,7 +1,7 @@
 package com.kishorebabu.android.commitstrip.common
 
 import android.content.Context
-import com.kishorebabu.android.commitstrip.MvpStarterApplication
+import com.kishorebabu.android.commitstrip.CommitStripApplication
 import com.kishorebabu.android.commitstrip.common.injection.component.DaggerTestComponent
 import com.kishorebabu.android.commitstrip.common.injection.component.TestComponent
 import com.kishorebabu.android.commitstrip.common.injection.module.ApplicationTestModule
@@ -22,7 +22,7 @@ class TestComponentRule(val context: Context) : TestRule {
     val testComponent: TestComponent
 
     init {
-        val application = MvpStarterApplication.get(context)
+        val application = CommitStripApplication.get(context)
         testComponent = DaggerTestComponent.builder()
                 .applicationTestModule(ApplicationTestModule(application))
                 .build()
@@ -35,7 +35,7 @@ class TestComponentRule(val context: Context) : TestRule {
         return object : Statement() {
             @Throws(Throwable::class)
             override fun evaluate() {
-                val application = MvpStarterApplication.get(context)
+                val application = CommitStripApplication.get(context)
                 application.component = testComponent
                 base.evaluate()
             }

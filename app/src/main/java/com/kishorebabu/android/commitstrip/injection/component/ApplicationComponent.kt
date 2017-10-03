@@ -21,4 +21,5 @@ interface ApplicationComponent {
     fun dataManager(): DataManager
 
     fun mvpBoilerplateService(): MvpStarterService
+
 }

@@ -1,5 +1,6 @@
 package com.kishorebabu.android.commitstrip.data
 
+import com.kishorebabu.android.commitstrip.data.model.ComicDao
 import com.kishorebabu.android.commitstrip.data.model.Pokemon
 import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.twitter.sdk.android.core.Callback
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 
 @Singleton
 class DataManager @Inject
-constructor(private val mMvpStarterService: MvpStarterService) {
+constructor(private val mMvpStarterService: MvpStarterService, private val mComicDao: ComicDao) {
 
     fun getPokemonList(limit: Int): Single<List<String>> {
         return mMvpStarterService.getPokemonList(limit)
@@ -30,7 +31,6 @@ constructor(private val mMvpStarterService: MvpStarterService) {
         val statusesService = twitterApiClient.statusesService
         val call = statusesService.userTimeline(null, "commitstrip", tweetCount, null, null, true, true, null, false)
         call.enqueue(callback)
-
     }
 
 }
