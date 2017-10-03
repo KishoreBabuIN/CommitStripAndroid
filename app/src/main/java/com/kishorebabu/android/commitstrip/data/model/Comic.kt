@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey
 /**
  * Created by kishore on 20/09/17.
  */
-@Entity(tableName = "comics")
+@Entity(tableName = "comic")
 data class Comic(
         @PrimaryKey(autoGenerate = false) var id: Long,
         @ColumnInfo(name = "date") var date: Long,
