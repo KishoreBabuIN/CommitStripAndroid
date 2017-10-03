@@ -25,10 +25,10 @@ constructor(private val mMvpStarterService: MvpStarterService, private val mComi
 //        return mMvpStarterService.getPokemon(name)
 //    }
 
-    fun getTweets(tweetCount: Int, callback: Callback<List<Tweet>>) {
+    fun getTweets(callback: Callback<List<Tweet>>) {
         val twitterApiClient = TwitterCore.getInstance().apiClient
         val statusesService = twitterApiClient.statusesService
-        val call = statusesService.userTimeline(null, "commitstrip", tweetCount, null, null, true, true, null, false)
+        val call = statusesService.userTimeline(null, "commitstrip", 999, null, null, true, true, null, false)
         call.enqueue(callback)
     }
 
@@ -36,5 +36,17 @@ constructor(private val mMvpStarterService: MvpStarterService, private val mComi
         val comic = Comic(id, timestamp, comicTitle, imageUrl, false)
         mComicDao.insertComic(comic)
     }
+
+    fun getLastKnownComic(): Comic? {
+        return mComicDao.getLatestComic()
+    }
+
+    fun getTweetsSinceId(sinceTweetId: Long, callback: Callback<List<Tweet>>) {
+        val twitterApiClient = TwitterCore.getInstance().apiClient
+        val statusesService = twitterApiClient.statusesService
+        val call = statusesService.userTimeline(null, "commitstrip", 999, sinceTweetId, null, true, true, null, false)
+        call.enqueue(callback)
+    }
+
 
 }

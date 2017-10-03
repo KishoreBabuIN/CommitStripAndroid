@@ -15,4 +15,7 @@ interface ComicDao {
 
     @Insert(onConflict = REPLACE)
     fun insertComic(comic: Comic)
+
+    @Query("SELECT * from COMIC ORDER BY date DESC LIMIT 1")
+    fun getLatestComic(): Comic?
 }

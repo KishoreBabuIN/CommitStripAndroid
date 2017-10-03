@@ -20,38 +20,50 @@ class SplashPresenter @Inject
 constructor(private val dataManager: DataManager) : BasePresenter<SplashMvpView>() {
 
     fun onViewReady() {
-        dataManager.getTweets(999, object : Callback<List<Tweet>>() {
-            override fun success(result: Result<List<Tweet>>) {
-                Log.v("asdf", "Result Size: ${result.data.size}")
-                result.data.forEach { tweet ->
-                    if (tweet.extendedEntities.media.size > 0) {
-                        if (tweet.text.indexOf("https://t.co/") > -1) {
-                            try {
-                                val comicTitle = tweet.text.subSequence(0, tweet.text.indexOf("https://t.co/")).trim()
-                                val imageUrl = tweet.extendedEntities.media[0].mediaUrl
-                                Log.v("asdf", "Date: ${tweet.createdAt} Title: $comicTitle ImageUrl: $imageUrl")
-                                val dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
-                                val format = SimpleDateFormat(dateFormat, Locale.ENGLISH)
-                                val date = format.parse(tweet.createdAt)
 
-                                dataManager.saveComic(tweet.id, date.time, comicTitle.toString(), imageUrl)
-                            } catch (e: Exception) {
-                                Log.e("asdf", "No Url found. ${tweet.text} ${e.message}")
-                            }
+        val lastKnownComic = dataManager.getLastKnownComic()
+        if (lastKnownComic != null) {
+            dataManager.getTweetsSinceId(lastKnownComic.id, TwitterResponseCallback(dataManager))
+        } else {
+            dataManager.getTweets(TwitterResponseCallback(dataManager))
+        }
 
-                        } else {
-                            Log.e("asdf", "No Url found. ${tweet.text}")
+
+    }
+
+    class TwitterResponseCallback
+    constructor(private val dataManager: DataManager) : Callback<List<Tweet>>() {
+        override fun success(result: Result<List<Tweet>>) {
+            Log.v("asdf", "Result Size: ${result.data.size}")
+            result.data.forEach { tweet ->
+                if (tweet.extendedEntities.media.size > 0) {
+                    if (tweet.text.indexOf("https://t.co/") > -1) {
+                        try {
+                            val comicTitle = tweet.text.subSequence(0, tweet.text.indexOf("https://t.co/")).trim()
+                            val imageUrl = tweet.extendedEntities.media[0].mediaUrl
+                            Log.v("asdf", "Date: ${tweet.createdAt} Title: $comicTitle ImageUrl: $imageUrl")
+                            val dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+                            val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.ENGLISH)
+                            val date = simpleDateFormat.parse(tweet.createdAt)
+
+                            dataManager.saveComic(tweet.id, date.time, comicTitle.toString(), imageUrl)
+                        } catch (e: Exception) {
+                            Log.e("asdf", "No Url found. ${tweet.text} ${e.message}")
                         }
+
                     } else {
                         Log.e("asdf", "No Url found. ${tweet.text}")
                     }
+                } else {
+                    Log.e("asdf", "No Url found. ${tweet.text}")
                 }
             }
+        }
 
-            override fun failure(exception: TwitterException) {
-                //Do something on failure
-                Log.e("Asdf", exception.toString())
-            }
-        })
+        override fun failure(exception: TwitterException) {
+            //Do something on failure
+            Log.e("Asdf", exception.toString())
+        }
     }
 }
+
