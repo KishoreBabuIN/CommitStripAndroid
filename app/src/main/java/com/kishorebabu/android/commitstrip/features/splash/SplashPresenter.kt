@@ -8,6 +8,8 @@ import com.twitter.sdk.android.core.Callback
 import com.twitter.sdk.android.core.Result
 import com.twitter.sdk.android.core.TwitterException
 import com.twitter.sdk.android.core.models.Tweet
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -16,9 +18,6 @@ import javax.inject.Inject
 @ConfigPersistent
 class SplashPresenter @Inject
 constructor(private val dataManager: DataManager) : BasePresenter<SplashMvpView>() {
-    override fun attachView(mvpView: SplashMvpView) {
-        super.attachView(mvpView)
-    }
 
     fun onViewReady() {
         dataManager.getTweets(999, object : Callback<List<Tweet>>() {
@@ -31,6 +30,11 @@ constructor(private val dataManager: DataManager) : BasePresenter<SplashMvpView>
                                 val comicTitle = tweet.text.subSequence(0, tweet.text.indexOf("https://t.co/")).trim()
                                 val imageUrl = tweet.extendedEntities.media[0].mediaUrl
                                 Log.v("asdf", "Date: ${tweet.createdAt} Title: $comicTitle ImageUrl: $imageUrl")
+                                val dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+                                val format = SimpleDateFormat(dateFormat, Locale.ENGLISH)
+                                val date = format.parse(tweet.createdAt)
+
+                                dataManager.saveComic(tweet.id, date.time, comicTitle.toString(), imageUrl)
                             } catch (e: Exception) {
                                 Log.e("asdf", "No Url found. ${tweet.text} ${e.message}")
                             }
