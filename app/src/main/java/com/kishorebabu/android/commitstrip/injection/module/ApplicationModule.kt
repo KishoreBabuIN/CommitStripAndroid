@@ -36,7 +36,7 @@ class ApplicationModule(private val mApplication: Application) {
     @Provides
     @Singleton
     fun provideComicDatabase(@ApplicationContext context: Context): ComicDatabase {
-        return Room.databaseBuilder(context, ComicDatabase::class.java, "commit-strip-comics-db").allowMainThreadQueries().build()
+        return Room.databaseBuilder(context, ComicDatabase::class.java, "commit-strip-comics-db").build()
     }
 
     @Provides

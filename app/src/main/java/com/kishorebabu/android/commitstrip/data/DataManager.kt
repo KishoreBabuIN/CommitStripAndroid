@@ -6,8 +6,11 @@ import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.twitter.sdk.android.core.Callback
 import com.twitter.sdk.android.core.TwitterCore
 import com.twitter.sdk.android.core.models.Tweet
+import io.reactivex.Maybe
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
+
 
 @Singleton
 class DataManager @Inject
@@ -32,13 +35,22 @@ constructor(private val mMvpStarterService: MvpStarterService, private val mComi
         call.enqueue(callback)
     }
 
-    fun saveComic(id: Long, timestamp: Long, comicTitle: String, imageUrl: String) {
+    fun saveComic(id: Long, timestamp: Long, comicTitle: String, imageUrl: String): Single<Unit> {
         val comic = Comic(id, timestamp, comicTitle, imageUrl, false)
-        mComicDao.insertComic(comic)
+        return Single.fromCallable {
+            mComicDao.insertComic(comic)
+        }
+
     }
 
-    fun getLastKnownComic(): Comic? {
-        return mComicDao.getLatestComic()
+    fun getLastKnownComic(): Maybe<Comic> {
+        return Maybe.fromCallable {
+            mComicDao.getLatestComic()
+        }
+
+//        return Single.fromCallable {
+//            mComicDao.getLatestComic()
+//        }
     }
 
     fun getTweetsSinceId(sinceTweetId: Long, callback: Callback<List<Tweet>>) {
