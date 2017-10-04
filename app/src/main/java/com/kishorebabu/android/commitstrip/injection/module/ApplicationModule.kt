@@ -8,6 +8,8 @@ import com.kishorebabu.android.commitstrip.data.model.ComicDatabase
 import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.kishorebabu.android.commitstrip.data.remote.MvpStarterServiceFactory
 import com.kishorebabu.android.commitstrip.injection.ApplicationContext
+import com.twitter.sdk.android.core.TwitterCore
+import com.twitter.sdk.android.core.services.StatusesService
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -43,6 +45,20 @@ class ApplicationModule(private val mApplication: Application) {
     @Singleton
     fun provideComicDao(database: ComicDatabase): ComicDao {
         return database.comicDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTwitterService(twitterCore: TwitterCore): StatusesService {
+        val twitterApiClient = twitterCore.apiClient
+        return twitterApiClient.statusesService
+
+    }
+
+    @Provides
+    @Singleton
+    fun provideTwitterInstance(): TwitterCore {
+        return TwitterCore.getInstance()
     }
 
 

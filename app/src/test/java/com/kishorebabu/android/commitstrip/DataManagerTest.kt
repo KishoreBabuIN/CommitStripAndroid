@@ -2,8 +2,8 @@ package com.kishorebabu.android.commitstrip
 
 import com.kishorebabu.android.commitstrip.data.DataManager
 import com.kishorebabu.android.commitstrip.data.model.ComicDao
-import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.kishorebabu.android.commitstrip.util.RxSchedulersOverrideRule
+import com.twitter.sdk.android.core.services.StatusesService
 import org.junit.Before
 import org.junit.Rule
 import org.junit.runner.RunWith
@@ -16,14 +16,14 @@ class DataManagerTest {
     @Rule
     @JvmField
     val mOverrideSchedulersRule = RxSchedulersOverrideRule()
-    @Mock lateinit var mMockMvpStarterService: MvpStarterService
+    @Mock lateinit var mMockTwitterStatusesService: StatusesService
     @Mock lateinit var mComicDao: ComicDao
 
     private var mDataManager: DataManager? = null
 
     @Before
     fun setUp() {
-        mDataManager = DataManager(mMockMvpStarterService, mComicDao)
+        mDataManager = DataManager(mMockTwitterStatusesService, mComicDao)
     }
 //
 //    @Test
