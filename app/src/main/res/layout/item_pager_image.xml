@@ -27,7 +27,7 @@
         android:textStyle="italic"
         tools:text="Mon Sep 25, 2017" />
 
-    <ImageView
+    <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/comic_photoview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
