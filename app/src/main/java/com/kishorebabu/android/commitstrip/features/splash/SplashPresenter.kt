@@ -37,7 +37,8 @@ constructor(private val dataManager: DataManager) : BasePresenter<SplashMvpView>
                         {
                             Timber.v("No Last Known Comic")
                             dataManager.getTweets(TwitterResponseCallback(dataManager))
-                        })
+                        }
+                )
     }
 
     class TwitterResponseCallback

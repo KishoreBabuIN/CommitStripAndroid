@@ -11,7 +11,6 @@ import butterknife.BindView
 import com.kishorebabu.android.commitstrip.R
 import com.kishorebabu.android.commitstrip.features.base.BaseActivity
 import com.kishorebabu.android.commitstrip.features.common.ErrorView
-import com.kishorebabu.android.commitstrip.features.detail.DetailActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -98,7 +97,6 @@ class MainActivity : BaseActivity(), MainMvpView, PokemonAdapter.ClickListener, 
     }
 
     override fun onPokemonClick(pokemon: String) {
-        startActivity(DetailActivity.getStartIntent(this, pokemon))
     }
 
     override fun onReloadData() {

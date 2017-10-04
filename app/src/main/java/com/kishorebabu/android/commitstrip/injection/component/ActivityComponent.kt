@@ -1,7 +1,6 @@
 package com.kishorebabu.android.commitstrip.injection.component
 
 import com.kishorebabu.android.commitstrip.features.base.BaseActivity
-import com.kishorebabu.android.commitstrip.features.detail.DetailActivity
 import com.kishorebabu.android.commitstrip.features.main.MainActivity
 import com.kishorebabu.android.commitstrip.features.splash.SplashActivity
 import com.kishorebabu.android.commitstrip.injection.PerActivity
@@ -15,6 +14,5 @@ interface ActivityComponent {
 
     fun inject(mainActivity: MainActivity)
 
-    fun inject(detailActivity: DetailActivity)
     fun inject(splashActivity: SplashActivity)
 }

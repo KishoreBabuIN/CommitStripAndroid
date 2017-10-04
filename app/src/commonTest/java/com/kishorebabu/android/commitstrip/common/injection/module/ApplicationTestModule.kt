@@ -3,7 +3,6 @@ package com.kishorebabu.android.commitstrip.common.injection.module
 import android.app.Application
 import android.content.Context
 import com.kishorebabu.android.commitstrip.data.DataManager
-import com.kishorebabu.android.commitstrip.data.remote.MvpStarterService
 import com.kishorebabu.android.commitstrip.injection.ApplicationContext
 import dagger.Module
 import dagger.Provides
@@ -38,11 +37,4 @@ class ApplicationTestModule(private val mApplication: Application) {
     internal fun providesDataManager(): DataManager {
         return mock(DataManager::class.java)
     }
-
-    @Provides
-    @Singleton
-    internal fun provideMvpBoilerplateService(): MvpStarterService {
-        return mock(MvpStarterService::class.java)
-    }
-
 }
