@@ -1,8 +1,5 @@
 # CommitStripAndroid [Work in Progress] [![Build Status](https://travis-ci.org/barykaed/CommitStripAndroid.svg?branch=master)](https://travis-ci.org/barykaed/CommitStripAndroid)
 
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Android%20MVP%20Starter-blue.svg?style=flat)](https://android-arsenal.com/details/3/5232)
-[![Join the chat at https://gitter.im/android-mvp-starter/Lobby](https://badges.gitter.im/android-mvp-starter/Lobby.svg)](https://gitter.im/android-mvp-starter/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 An Android app to read the latest comics from [CommitStrip](http://www.commitstrip.com/en/?). This is built using the fantastic work over at [AndroidStarters](http://androidstarters.com/).
 
 It follows the MVP style of design.
