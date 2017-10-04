@@ -45,5 +45,9 @@ constructor(private val twitterStatusesService: StatusesService,
 
     }
 
+    fun getComicAtPosition(position: Int): Single<Comic> {
+        return mComicDao.getComicAtPosition(position)
+    }
+
 
 }

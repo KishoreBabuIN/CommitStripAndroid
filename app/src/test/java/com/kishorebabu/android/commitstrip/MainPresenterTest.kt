@@ -43,7 +43,7 @@ class MainPresenterTest {
 //        `when`(mMockDataManager.getPokemonList(10))
 //                .thenReturn(Single.just(pokemonList))
 //
-//        mMainPresenter?.getPokemon(10)
+//        mainPresenter?.getPokemon(10)
 //
 //        verify<MainMvpView>(mMockMainMvpView, times(2)).showProgress(anyBoolean())
 //        verify<MainMvpView>(mMockMainMvpView).showPokemon(pokemonList)
@@ -57,7 +57,7 @@ class MainPresenterTest {
 //        `when`(mMockDataManager.getPokemonList(10))
 //                .thenReturn(Single.error<List<String>>(RuntimeException()))
 //
-//        mMainPresenter?.getPokemon(10)
+//        mainPresenter?.getPokemon(10)
 //
 //        verify<MainMvpView>(mMockMainMvpView, times(2)).showProgress(anyBoolean())
 ////        verify<MainMvpView>(mMockMainMvpView).showError(RuntimeException())

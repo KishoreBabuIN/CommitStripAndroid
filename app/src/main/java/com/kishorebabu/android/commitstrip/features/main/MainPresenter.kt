@@ -11,7 +11,7 @@ constructor(private val mDataManager: DataManager) : BasePresenter<MainMvpView>(
 
     fun getPokemon(limit: Int) {
         checkViewAttached()
-        mvpView?.showProgress(true)
+//        mvpView?.showProgress(true)
 //        mDataManager.getPokemonList(limit)
 //                .compose(SchedulerUtils.ioToMain<List<String>>())
 //                .subscribe({ pokemons ->

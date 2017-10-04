@@ -6,6 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy.REPLACE
 import android.arch.persistence.room.Query
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 /**
  * Created by kishore on 20/09/17.
@@ -23,4 +24,7 @@ interface ComicDao {
 
     @Query("SELECT * from COMIC ORDER BY date DESC LIMIT 1")
     fun getLatestComic(): Maybe<Comic>
+
+    @Query("SELECT * from COMIC ORDER BY date DESC LIMIT 1 OFFSET :position")
+    fun getComicAtPosition(position: Int): Single<Comic>
 }

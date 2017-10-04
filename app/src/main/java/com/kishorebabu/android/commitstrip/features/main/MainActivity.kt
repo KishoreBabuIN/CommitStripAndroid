@@ -1,58 +1,40 @@
 package com.kishorebabu.android.commitstrip.features.main
 
 import android.os.Bundle
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.Toolbar
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.app.ListFragment
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ProgressBar
-import butterknife.BindView
+import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.kishorebabu.android.commitstrip.R
+import com.kishorebabu.android.commitstrip.data.model.Comic
 import com.kishorebabu.android.commitstrip.features.base.BaseActivity
-import com.kishorebabu.android.commitstrip.features.common.ErrorView
-import timber.log.Timber
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_pager_image.*
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
-class MainActivity : BaseActivity(), MainMvpView, PokemonAdapter.ClickListener, ErrorView.ErrorListener {
+class MainActivity : BaseActivity(), MainMvpView {
 
-    @Inject lateinit var mPokemonAdapter: PokemonAdapter
-    @Inject lateinit var mMainPresenter: MainPresenter
+    @Inject lateinit var mainPresenter: MainPresenter
 
-    @BindView(R.id.view_error)
-    @JvmField
-    var mErrorView: ErrorView? = null
-    @BindView(R.id.progress)
-    @JvmField
-    var mProgress: ProgressBar? = null
-    @BindView(R.id.recycler_pokemon)
-    @JvmField
-    var mPokemonRecycler: RecyclerView? = null
-    @BindView(R.id.swipe_to_refresh)
-    @JvmField
-    var mSwipeRefreshLayout: SwipeRefreshLayout? = null
-    @BindView(R.id.toolbar)
-    @JvmField
-    var mToolbar: Toolbar? = null
+    lateinit var comicAdapter: ComicAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityComponent().inject(this)
-        mMainPresenter.attachView(this)
+        mainPresenter.attachView(this)
+        comicAdapter = ComicAdapter(supportFragmentManager)
 
-        setSupportActionBar(mToolbar)
-
-        mSwipeRefreshLayout?.setProgressBackgroundColorSchemeResource(R.color.primary)
-        mSwipeRefreshLayout?.setColorSchemeResources(R.color.white)
-        mSwipeRefreshLayout?.setOnRefreshListener { mMainPresenter.getPokemon(POKEMON_COUNT) }
-
-        mPokemonAdapter.setClickListener(this)
-        mPokemonRecycler?.layoutManager = LinearLayoutManager(this)
-        mPokemonRecycler?.adapter = mPokemonAdapter
-
-        mErrorView?.setErrorListener(this)
-
-        mMainPresenter.getPokemon(POKEMON_COUNT)
+        toolbar.setTitle(R.string.commit_strip)
+        setSupportActionBar(toolbar)
+        view_pager.offscreenPageLimit = 2
+        view_pager.adapter = comicAdapter
+        view_pager.currentItem = comicAdapter.count
     }
 
     override val layout: Int
@@ -60,51 +42,92 @@ class MainActivity : BaseActivity(), MainMvpView, PokemonAdapter.ClickListener, 
 
     override fun onDestroy() {
         super.onDestroy()
-        mMainPresenter.detachView()
+        mainPresenter.detachView()
     }
 
-    override fun showPokemon(pokemon: List<String>) {
-        mPokemonAdapter.setPokemon(pokemon)
-        mPokemonAdapter.notifyDataSetChanged()
 
-        mPokemonRecycler?.visibility = View.VISIBLE
-        mSwipeRefreshLayout?.visibility = View.VISIBLE
-    }
+    companion object
 
-    override fun showProgress(show: Boolean) {
-        if (show) {
-            if (mPokemonRecycler?.visibility == View.VISIBLE && mPokemonAdapter.itemCount > 0) {
-                mSwipeRefreshLayout?.isRefreshing = true
-            } else {
-                mProgress?.visibility = View.VISIBLE
+    inner class ComicAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
-                mPokemonRecycler?.visibility = View.GONE
-                mSwipeRefreshLayout?.visibility = View.GONE
-            }
+        override fun getCount(): Int {
+            return 100 //todo
+        }
 
-            mErrorView?.visibility = View.GONE
-        } else {
-            mSwipeRefreshLayout?.isRefreshing = false
-            mProgress?.visibility = View.GONE
+        override fun getItem(position: Int): Fragment {
+            return ComicFragment.newInstance(position)
         }
     }
 
-    override fun showError(error: Throwable) {
-        mPokemonRecycler?.visibility = View.GONE
-        mSwipeRefreshLayout?.visibility = View.GONE
-        mErrorView?.visibility = View.VISIBLE
-        Timber.e(error, "There was an error retrieving the pokemon")
-    }
+    class ComicFragment : ListFragment(), ComicMvpView {
+        override fun showComic(comic: Comic) {
+            comic_title.text = comic.title
 
-    override fun onPokemonClick(pokemon: String) {
-    }
+            comic_date.text = formatDate(comic.date)
 
-    override fun onReloadData() {
-        mMainPresenter.getPokemon(POKEMON_COUNT)
-    }
+            Glide.with(this)
+                    .load(comic.imageUrl)
+                    .into(comic_photoview)
+        }
 
-    companion object {
+        private fun formatDate(timestamp: Long): String {
+            val dateFormat = "EEE MMM dd, yyyy"
+            val simpleDateFormat = SimpleDateFormat(dateFormat, Locale.ENGLISH)
 
-        private val POKEMON_COUNT = 20
+            return simpleDateFormat.format(Date(timestamp))
+        }
+
+        private var position: Int = 0
+
+        @Inject lateinit var comicPresenter: ComicPresenter
+
+        /**
+         * When creating, retrieve this instance's number from its arguments.
+         */
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            (activity as BaseActivity).activityComponent().inject(this)
+
+            position = if (arguments != null) arguments.getInt("position") else 1
+
+
+        }
+
+        /**
+         * The Fragment's UI is just a simple text view showing its
+         * instance number.
+         */
+        override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
+                                  savedInstanceState: Bundle?): View? {
+            val v = inflater!!.inflate(R.layout.item_pager_image, container, false)
+            comicPresenter.attachView(this)
+            return v
+        }
+
+        override fun onActivityCreated(savedInstanceState: Bundle?) {
+            super.onActivityCreated(savedInstanceState)
+            comicPresenter.onViewReadyReady(position)
+        }
+
+        companion object {
+
+
+            /**
+             * Create a new instance of CountingFragment, providing "position"
+             * as an argument.
+             */
+            internal fun newInstance(position: Int): ComicFragment {
+                val f = ComicFragment()
+
+                // Supply position input as an argument.
+                val args = Bundle()
+                args.putInt("position", position)
+                f.arguments = args
+
+                return f
+            }
+        }
+
+
     }
 }

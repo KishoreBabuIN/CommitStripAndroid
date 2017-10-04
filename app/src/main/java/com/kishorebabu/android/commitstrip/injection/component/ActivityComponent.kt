@@ -15,4 +15,5 @@ interface ActivityComponent {
     fun inject(mainActivity: MainActivity)
 
     fun inject(splashActivity: SplashActivity)
+    fun inject(comicFragment: MainActivity.ComicFragment)
 }
