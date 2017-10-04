@@ -1,8 +1,10 @@
 package com.kishorebabu.android.commitstrip.features.splash
 
+import android.content.Intent
 import android.os.Bundle
 import com.kishorebabu.android.commitstrip.R
 import com.kishorebabu.android.commitstrip.features.base.BaseActivity
+import com.kishorebabu.android.commitstrip.features.main.MainActivity
 import javax.inject.Inject
 
 /**
@@ -21,6 +23,11 @@ class SplashActivity : BaseActivity(), SplashMvpView {
 
         splashPresenter.onViewReady()
 
+    }
+
+    override fun showComicList() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     override fun onDestroy() {

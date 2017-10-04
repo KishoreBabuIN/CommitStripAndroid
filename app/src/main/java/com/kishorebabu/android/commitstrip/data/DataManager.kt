@@ -38,5 +38,12 @@ constructor(private val twitterStatusesService: StatusesService,
         call.enqueue(callback)
     }
 
+    fun saveComics(comics: ArrayList<Comic>): Single<Unit> {
+        return Single.fromCallable {
+            mComicDao.insertComics(comics)
+        }
+
+    }
+
 
 }

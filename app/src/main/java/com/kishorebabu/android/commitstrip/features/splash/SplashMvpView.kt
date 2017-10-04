@@ -5,4 +5,6 @@ import com.kishorebabu.android.commitstrip.features.base.MvpView
 /**
  * Created by kishore on 20/09/17.
  */
-interface SplashMvpView : MvpView
+interface SplashMvpView : MvpView {
+    fun showComicList()
+}
