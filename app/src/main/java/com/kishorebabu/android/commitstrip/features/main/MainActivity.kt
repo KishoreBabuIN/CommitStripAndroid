@@ -34,7 +34,7 @@ class MainActivity : BaseActivity(), MainMvpView {
         setSupportActionBar(toolbar)
         view_pager.offscreenPageLimit = 2
         view_pager.adapter = comicAdapter
-        view_pager.currentItem = comicAdapter.count
+        view_pager.currentItem = 0
     }
 
     override val layout: Int
