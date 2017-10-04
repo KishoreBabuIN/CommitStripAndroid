@@ -1,6 +1,7 @@
 package com.kishorebabu.android.commitstrip.features.main
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -18,11 +19,16 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+
 class MainActivity : BaseActivity(), MainMvpView {
 
     @Inject lateinit var mainPresenter: MainPresenter
 
     private lateinit var comicAdapter: ComicAdapter
+
+    private lateinit var decorView: View
+    private var izImmersive: Boolean = false
+    private lateinit var handler: Handler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +38,28 @@ class MainActivity : BaseActivity(), MainMvpView {
         toolbar.setTitle(R.string.commit_strip)
         setSupportActionBar(toolbar)
 
+        decorView = window.decorView
+        hideUI()
+        handler = Handler()
+        decorView.setOnSystemUiVisibilityChangeListener { visibility ->
+            if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
+                izImmersive = false
+                handler.postDelayed(autoHideRunner, 3000)
+            } else {
+                izImmersive = true
+            }
+        }
+
         mainPresenter.onViewReady()
 
     }
+
+    private fun hideUI() {
+        izImmersive = true
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+    }
+
+    private val autoHideRunner = Runnable { hideUI() }
 
     override fun showComics(count: Int) {
         comicAdapter = ComicAdapter(count, supportFragmentManager)
