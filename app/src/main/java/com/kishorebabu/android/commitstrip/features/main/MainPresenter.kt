@@ -3,24 +3,29 @@ package com.kishorebabu.android.commitstrip.features.main
 import com.kishorebabu.android.commitstrip.data.DataManager
 import com.kishorebabu.android.commitstrip.features.base.BasePresenter
 import com.kishorebabu.android.commitstrip.injection.ConfigPersistent
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 @ConfigPersistent
 class MainPresenter @Inject
 constructor(private val mDataManager: DataManager) : BasePresenter<MainMvpView>() {
 
-    fun getPokemon(limit: Int) {
-        checkViewAttached()
-//        mvpView?.showProgress(true)
-//        mDataManager.getPokemonList(limit)
-//                .compose(SchedulerUtils.ioToMain<List<String>>())
-//                .subscribe({ pokemons ->
-//                    mvpView?.showProgress(false)
-//                    mvpView?.showPokemon(pokemons)
-//                }) { throwable ->
-//                    mvpView?.showProgress(false)
-//                    mvpView?.showError(throwable)
-//                }
+    fun onViewReady() {
+        mDataManager.getTotalComicsCount()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { count ->
+                            Timber.v("Total comics count: $count")
+                            checkViewAttached()
+                            mvpView?.showComics(count)
+                        },
+                        { throwable ->
+                            Timber.e(throwable, "Failed to get total comics count")
+                        }
+                )
     }
 
 }

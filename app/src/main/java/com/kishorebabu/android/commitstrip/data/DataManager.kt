@@ -49,5 +49,9 @@ constructor(private val twitterStatusesService: StatusesService,
         return mComicDao.getComicAtPosition(position)
     }
 
+    fun getTotalComicsCount(): Single<Int> {
+        return mComicDao.getTotalComicsCount()
+    }
+
 
 }

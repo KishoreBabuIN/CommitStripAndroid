@@ -27,4 +27,7 @@ interface ComicDao {
 
     @Query("SELECT * from COMIC ORDER BY date DESC LIMIT 1 OFFSET :position")
     fun getComicAtPosition(position: Int): Single<Comic>
+
+    @Query("SELECT COUNT(*) from comic")
+    fun getTotalComicsCount(): Single<Int>
 }

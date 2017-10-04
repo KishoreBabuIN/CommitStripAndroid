@@ -22,16 +22,23 @@ class MainActivity : BaseActivity(), MainMvpView {
 
     @Inject lateinit var mainPresenter: MainPresenter
 
-    lateinit var comicAdapter: ComicAdapter
+    private lateinit var comicAdapter: ComicAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityComponent().inject(this)
         mainPresenter.attachView(this)
-        comicAdapter = ComicAdapter(supportFragmentManager)
 
         toolbar.setTitle(R.string.commit_strip)
         setSupportActionBar(toolbar)
+
+        mainPresenter.onViewReady()
+
+    }
+
+    override fun showComics(count: Int) {
+        comicAdapter = ComicAdapter(count, supportFragmentManager)
+
         view_pager.offscreenPageLimit = 2
         view_pager.adapter = comicAdapter
         view_pager.currentItem = 0
@@ -48,10 +55,10 @@ class MainActivity : BaseActivity(), MainMvpView {
 
     companion object
 
-    inner class ComicAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    class ComicAdapter(private val count: Int, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
         override fun getCount(): Int {
-            return 100 //todo
+            return count
         }
 
         override fun getItem(position: Int): Fragment {
