@@ -28,4 +28,20 @@ constructor(private val mDataManager: DataManager) : BasePresenter<MainMvpView>(
                 )
     }
 
+    fun onComicPositionSelected(position: Int) {
+        mDataManager.getComicAtPosition(position)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { comic ->
+                            checkViewAttached()
+                            mvpView?.showComicTitleAndDate(comic)
+
+                        },
+                        { throwable ->
+                            Timber.e(throwable, "Failed to get comic at position: $position")
+                        }
+                )
+    }
+
 }
