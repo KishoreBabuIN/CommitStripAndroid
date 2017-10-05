@@ -20,7 +20,7 @@ deploy:
   provider: releases
   api_key:
     secure: nt1AFAMz1bQ1y9ZV5vq1MTYHrm1R5aLBBRSnYDcNyMPvz8bV6IjvkqiVauDzVaMmJfN0a70tY3qnGz/vlTnEu9W6q50pP2lS4VgpnU1YjCc1xD6A/AZhMP/vm/D7g9GSESzAL0vK96mpouYaYbkwUTEIHjGGOya67gQjky3zzTK1eOs4+ICnl+K6KondKyevy+Fo235Lpz/D9NOOwB8hRCWNRruuEsbsc0NSXQH5OUSyjlH/DEtXS/Bf7tQ5+Zbd+wU/3w68afIfWOt6L0dtOe9qHhCxs6kiCUrCfjPRHlvLdCP52kugE4j1qIKSjp4A9Nxkbw74yNsJecTjwKKhy8bxk310GxuQoRQ8owPw1OS9aQA2DD36miT6XJlNfW71SDBqZ2uvphdmo1KibKj4owGlA1JJL0yXcE3QP0NDPu61IvM1j/LSPhX5M5p6Ffk+qe1akZOUMmicm7U3lQTpkwvud2nmz+U2/XAgvVU2iLgYkPnz+OvEYc5zrRn9K4TEu1qikG/IX/oifWRhYEmvAqm0DR27T+rklt9EW9by6AASF7XIKADWofQgZ27jVBnfbBcJ3Ax8h7j/gIHczKeiXVV0FS0PZjaGYrf60SQCzq1C/RFTiD3rUXzo3B3c581cqyJ8IASpkqsPRICUCHRrwHutcyJ1q5DTnE86RNpdeUY=
-  file: app-release.apk
+  file: app/build/outputs/apk/app-release.apk
   skip_cleanup: true
   on:
     repo: barykaed/CommitStripAndroid
