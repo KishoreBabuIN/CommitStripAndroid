@@ -1,8 +1,16 @@
-# CommitStripAndroid [Work in Progress] [![Build Status](https://travis-ci.org/barykaed/CommitStripAndroid.svg?branch=master)](https://travis-ci.org/barykaed/CommitStripAndroid)
+# CommitStripAndroid [![Build Status](https://travis-ci.org/barykaed/CommitStripAndroid.svg?branch=master)](https://travis-ci.org/barykaed/CommitStripAndroid)
 
 An Android app to read the latest comics from [CommitStrip](http://www.commitstrip.com/en/?). This is built using the fantastic work over at [AndroidStarters](http://androidstarters.com/).
 
 It follows the MVP style of design.
+
+Download the latest build here:
+ 
+<p align="center">
+<a href='https://play.google.com/store/apps/details?id=com.kishorebabu.android.commitstrip'>
+<img alt='Get it on Google Play' src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" width="50%">
+</a>
+</p>
 
 ## This project uses:
 - [RxJava2](https://github.com/ReactiveX/RxJava) and [RxAndroid](https://github.com/ReactiveX/RxAndroid)
