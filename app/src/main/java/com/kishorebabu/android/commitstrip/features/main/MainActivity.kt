@@ -107,6 +107,8 @@ class MainActivity : BaseActivity(), MainMvpView, onComicActionListener {
         view_pager.offscreenPageLimit = 2
         view_pager.adapter = comicAdapter
         view_pager.currentItem = 0
+        mainPresenter.onComicPositionSelected(0)
+
         view_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {}
 
@@ -115,8 +117,8 @@ class MainActivity : BaseActivity(), MainMvpView, onComicActionListener {
             override fun onPageSelected(position: Int) {
                 mainPresenter.onComicPositionSelected(position)
             }
-
         })
+
     }
 
     override fun showComicTitleAndDate(comic: Comic) {
