@@ -6,9 +6,9 @@ It follows the MVP style of design.
 
 Download the latest build here:
  
-<p align="center">
+<p align="left">
 <a href='https://play.google.com/store/apps/details?id=com.kishorebabu.android.commitstrip'>
-<img alt='Get it on Google Play' src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" width="50%">
+<img alt='Get it on Google Play' src="https://github.com/steverichey/google-play-badge-svg/blob/master/img/en_get.svg" width="25%">
 </a>
 </p>
 
