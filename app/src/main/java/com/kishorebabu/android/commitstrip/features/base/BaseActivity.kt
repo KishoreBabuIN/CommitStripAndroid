@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.util.LongSparseArray
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import butterknife.ButterKnife
 import com.kishorebabu.android.commitstrip.CommitStripApplication
 import com.kishorebabu.android.commitstrip.injection.component.ActivityComponent
 import com.kishorebabu.android.commitstrip.injection.component.ConfigPersistentComponent
@@ -30,7 +29,6 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(layout)
-        ButterKnife.bind(this)
         // Create the ActivityComponent and reuses cached ConfigPersistentComponent if this is
         // being called after a configuration change.
         mActivityId = savedInstanceState?.getLong(KEY_ACTIVITY_ID) ?: NEXT_ID.getAndIncrement()

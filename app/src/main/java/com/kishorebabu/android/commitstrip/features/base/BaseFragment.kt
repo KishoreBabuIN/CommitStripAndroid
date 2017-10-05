@@ -6,7 +6,6 @@ import android.support.v4.util.LongSparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import com.kishorebabu.android.commitstrip.CommitStripApplication
 import com.kishorebabu.android.commitstrip.injection.component.ConfigPersistentComponent
 import com.kishorebabu.android.commitstrip.injection.component.DaggerConfigPersistentComponent
@@ -48,7 +47,6 @@ abstract class BaseFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view: View? = inflater?.inflate(layout, container, false)
-        ButterKnife.bind(this, view as View)
         return view
     }
 
