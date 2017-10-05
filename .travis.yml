@@ -16,6 +16,10 @@ before_script:
 - chmod +x gradlew
 script: "./gradlew clean assembleRelease -PdisablePreDex"
 
+before_deploy:
+  - "echo TRAVIS BUILD NUMBER $TRAVIS_BUILD_NUMBER"
+  - "echo TRAVIS BUILD DIR $TRAVIS_BUILD_DIR"
+
 deploy:
   provider: releases
   api_key:
