@@ -1,15 +1,12 @@
 package com.kishorebabu.android.commitstrip
 
+import android.app.Application
 import android.content.Context
-import android.support.multidex.MultiDexApplication
 import android.util.Log
 import com.crashlytics.android.Crashlytics
-import com.facebook.stetho.Stetho
 import com.kishorebabu.android.commitstrip.injection.component.ApplicationComponent
-import com.kishorebabu.android.commitstrip.injection.component.DaggerApplicationComponent
 import com.kishorebabu.android.commitstrip.injection.module.ApplicationModule
 import com.kishorebabu.android.commitstrip.util.CrashReportingTree
-import com.squareup.leakcanary.LeakCanary
 import com.twitter.sdk.android.core.DefaultLogger
 import com.twitter.sdk.android.core.Twitter
 import com.twitter.sdk.android.core.TwitterAuthConfig
@@ -18,9 +15,11 @@ import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
 
-class CommitStripApplication : MultiDexApplication() {
+open class CommitStripApplication : Application() {
 
-    internal var mApplicationComponent: ApplicationComponent? = null
+    private var mApplicationComponent: ApplicationComponent? = null
+    private val GIT_SHA_KEY = "GIT_SHA"
+    private val BUILD_TIME_KEY = "BUILD_TIME"
 
     override fun onCreate() {
         super.onCreate()
@@ -33,12 +32,10 @@ class CommitStripApplication : MultiDexApplication() {
         Twitter.initialize(config)
 
 
-        if (BuildConfig.DEBUG) {
-            Timber.plant(Timber.DebugTree())
-            Stetho.initializeWithDefaults(this)
-            LeakCanary.install(this)
-        } else {
+        if (!BuildConfig.DEBUG) {
             Fabric.with(this, Crashlytics())
+            Crashlytics.setString(GIT_SHA_KEY, BuildConfig.GIT_SHA)
+            Crashlytics.setString(BUILD_TIME_KEY, BuildConfig.BUILD_TIME)
             Timber.plant(CrashReportingTree())
         }
     }

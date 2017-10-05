@@ -19,7 +19,7 @@ android {
         defaultPublishConfig 'debug'
 
         applicationId "com.kishorebabu.android.commitstrip"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 26
         testInstrumentationRunner "${applicationId}.runner.RxAndroidJUnitRunner"
 
@@ -34,12 +34,24 @@ android {
         buildConfigField("String", "TWITTER_CONSUMER_KEY", "\"${TwitterConsumerKey}\"")
         buildConfigField("String", "TWITTER_CONSUMER_SECRET", "\"${TwitterConsumerSecret}\"")
 
-        multiDexEnabled true
+//        multiDexEnabled true
+
+        resConfigs "en"
+
+        ndk {
+            abiFilters "armeabi-v7a", "x86", "arm64-v8a"
+        }
+
+        def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+        def buildTime = new GregorianCalendar().format("dd-MM-yyyy ' ' h:mm:ss a z")
+        buildConfigField "String", "GIT_SHA", "\"${gitSha}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
     }
     buildTypes {
         release {
             resValue "string", "app_name", "CommitStrip"
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -114,7 +126,7 @@ dependencies {
     implementation supportLibs
     implementation networkLibs
     implementation rxJavaLibs
-    implementation 'com.android.support:multidex:1.0.1'
+//    implementation 'com.android.support:multidex:1.0.1'
 
     implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') { transitive = true }
 
@@ -124,7 +136,6 @@ dependencies {
     }
 
     implementation "com.jakewharton.timber:timber:4.5.1"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.4.2"
     implementation('com.twitter.sdk.android:twitter-core:3.1.1@aar') { transitive = true }
 
     //Room
@@ -140,6 +151,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$versions.dagger"
     compileOnly 'org.glassfish:javax.annotation:10.0-b28' //Required by Dagger2
 
+    debugImplementation "com.facebook.stetho:stetho-okhttp3:1.4.2"
     debugImplementation leakCannary
     releaseImplementation leakCannary
     testImplementation leakCannary
