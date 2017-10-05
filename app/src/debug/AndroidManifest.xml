@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
-        android:name="com.kishorebabu.android.CommitStripDebugApplication"
+        android:name=".CommitStripDebugApplication"
         tools:replace="android:name">
 
     </application>

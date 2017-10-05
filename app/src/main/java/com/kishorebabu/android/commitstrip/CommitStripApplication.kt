@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import com.crashlytics.android.Crashlytics
 import com.kishorebabu.android.commitstrip.injection.component.ApplicationComponent
+import com.kishorebabu.android.commitstrip.injection.component.DaggerApplicationComponent
 import com.kishorebabu.android.commitstrip.injection.module.ApplicationModule
 import com.kishorebabu.android.commitstrip.util.CrashReportingTree
 import com.twitter.sdk.android.core.DefaultLogger

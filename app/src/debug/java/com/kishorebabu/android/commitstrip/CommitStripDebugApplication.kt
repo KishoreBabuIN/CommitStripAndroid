@@ -1,7 +1,6 @@
-package com.kishorebabu.android
+package com.kishorebabu.android.commitstrip
 
 import com.facebook.stetho.Stetho
-import com.kishorebabu.android.commitstrip.CommitStripApplication
 import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 
